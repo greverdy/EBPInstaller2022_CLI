@@ -58,7 +58,6 @@ class interface:
     
     def isAdmin():
         interface.wipe(20)
-        #interface.reload(EBP_List_Logiciel,EBP_List_Select)
         try:
             with open("C:/Windows/WindowsUpdate.log", 'w'):
                 print("")
@@ -213,28 +212,12 @@ class interface:
                         os.system(f"echo Erreur Telechargement {elem[1]} >> %userprofile%/Desktop/EBPInstaller_Rapport_Erreurs.txt")
                     except:
                         pass
-                #try:
-                #    mega.download_url(elem[2],os.environ['TEMP']+'/EBP2022/') # os.environ['TEMP']+'/EBP2022' || os.environ['USERPROFILE']+'/Desktop/' || os.environ['USERPROFILE']+'/OneDrive/Desktop/' || 
-                #    print(f'\n   Téléchargement de {elem[1]} {emoji.emojize(":check_mark:")} \n')
-                #    sleep(2)
-                #except:
-                #    print('\n   Fichier introuvable ! Merci de contacter informatique@ecoris.fr pour signaler cette erreur !\n')
-                #    sleep(2)
-                #    try:
-                #        os.system(f"echo Erreur Telechargement {elem[1]} >> %userprofile%/Desktop/EBPInstaller_Rapport_Erreurs.txt")
-                #    except:
-                #        pass
                 
                 sleep(1)
             else:
                 print(f"\n\n        {elem[1]} est déjà installé [Dossier d'installation présent]\n")
-                #print(f"\n\n[DEBUG] elements restant : \n {list}\n")
                 Failed_List.append(elem)
-                #print(f"\n\n[DEBUG] elements restant : \n {list}\n")
                 sleep(2)
-                
-        #else:
-        #   print('\n   Aucune nouvelle installation effectuée.')
         sleep(2)
         interface.licenseXML(list,Failed_List)
 
