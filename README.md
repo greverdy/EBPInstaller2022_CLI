@@ -32,6 +32,7 @@ $ EBPInstaller.exe
 
 ## TroubleShooting
 
-- Systèmes d'exploitation supportés : Windows [sans le mode S] ;
-- Désactiver le mode S : <a href="https://support.microsoft.com/fr-fr/windows/sortie-du-mode-s-dans-windows-4f56d9be-99ec-6983-119f-031bfb28a307">Sortie du mode S dans Windows</a>
+- Systèmes d'exploitation supportés : Windows [sans le mode S ⚠] ;
+- Désactiver le mode S : <a href="https://support.microsoft.com/fr-fr/windows/sortie-du-mode-s-dans-windows-4f56d9be-99ec-6983-119f-031bfb28a307">Sortie du mode S dans Windows</a> ; 
+- Vérifier que vous n'avez aucune mise à jour en attente ⚠ ;
 - <a href="mailto:informatique@ecoris.fr?subject=Problème avec l'application : EBPInstaller&body= --- Merci de détailler au mieux votre demande pour que nous puissions vous aider au plus vite ---" target="_blank"> Signaler une erreur / Autres problèmes ➡ mail à : informatique@ecoris.fr ;</a>
