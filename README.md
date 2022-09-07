@@ -12,6 +12,7 @@ Code source disponible dans l'archive.<br>
 
 Script compilé à l'aide du module : <a href='https://pypi.org/project/auto-py-to-exe/' target="_blank">AUTO-PY-TO-EXE</a>.
 
+> pyinstaller --noconfirm --onefile --console --icon "<path_to_ico>/ebp.ico" --add-data "<path_to_package>/AppData/Local/Programs/Python/Python310/Lib/site-packages/pyfiglet;pyfiglet/"  "<path_to_py>/EBP2022.py" --uac-admin
 
 ## How To Use
 > **Note**
