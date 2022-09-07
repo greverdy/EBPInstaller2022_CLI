@@ -58,6 +58,7 @@ class interface:
     
     def isAdmin():
         interface.wipe(20)
+        #interface.reload(EBP_List_Logiciel,EBP_List_Select)
         try:
             with open("C:/Windows/WindowsUpdate.log", 'w'):
                 print("")
@@ -66,12 +67,21 @@ class interface:
             sleep(3)
             interface.wipe(20)
             os.system('cls' if os.name == 'nt' else 'clear')
+            print('\n     - Vérification des mise à jours du système')
+            resultmaj = os.popen('powershell -command "$session = New-Object -com "Microsoft.Update.Session"; "$searcher = $session.CreateUpdateSearcher()"; "$results = $searcher.search(\'IsInstalled=0\')"; " $results.updates.count"').read()
+            if resultmaj.strip() == "0" :
+                print('\n\n        Aucune mises à jours en attentes !')
+                sleep(3)
+            else:
+                print('\n\n        Vous avez des mises à jours en attentes !\n          L\'installation risque de ne pas aboutir !')
+                sleep(8)
+            os.system('cls' if os.name == 'nt' else 'clear')
             interface.reload(EBP_List_Logiciel,EBP_List_Select)
         except PermissionError:
             print(pyfiglet.Figlet(font='big').renderText(' NOT ADMIN'))
             sleep(0.3)
             print('\n\n     Merci de relancer le script en Administrateur !\n')
-            sleep(3)
+            sleep(7)
             try:
                 os.system(f"exit")
             except:
