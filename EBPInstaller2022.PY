@@ -183,7 +183,7 @@ class interface:
                     mega.download_url(elem[2],os.environ['TEMP']+'/EBP2022/')
                     print(f'\n        Téléchargement de {elem[1]} : OK \n')
                     print(f'\n\n               Installation de {elem[1]} : en cours \n')
-                    if os.system("%temp% \\EBP2022\\"+elem[1]+".exe /s NETWORK=FALSE PERSONALIZED=TRUE WEBCHECKED=FALSE > nul") == 0: #
+                    if os.system("%temp%\\EBP2022\\"+elem[1]+".exe /s NETWORK=FALSE PERSONALIZED=TRUE WEBCHECKED=FALSE > nul") == 0: #
                         print(f"\n               Installation de {elem[1]} : OK\n")
                     else:
                         print(f"\n               Erreur ! L'installation de {elem[1]} a échoué !\n")
