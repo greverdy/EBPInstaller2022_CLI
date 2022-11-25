@@ -33,6 +33,10 @@ import shutil
 
 import emoji
 
+import ctypes
+
+import requests
+
 
 #╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬#
 #╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬╬#
@@ -55,7 +59,34 @@ class interface:
         except:
             print("\n"*n)
 
-    
+
+    def CheckVersion():
+        request = requests.get('https://github.com/greverdy/EBPInstaller2022/blob/main/v.1.3.md')
+        if request.status_code == 200:
+            print('\n     Utilitaire à jour !')
+            interface.isAdmin()
+        else:
+            print('\n     Utilitaire obsolète !\n     Une nouvelle version semble disponible sur https://soft.ecoris.fr')
+            sleep(1)
+            print('\n     Souhaitez-vous tout de même continuer ? [Oui/-]')
+            majq = input("\n          >> ")
+            if majq.lower().strip() in ["yes", "y", "o", "oui", "1"]:
+                interface.isAdmin()
+            else:
+                try:
+                    os.system('start msedge soft.ecoris.fr')
+                except:
+                    pass
+                print('\n\n        Le programme va se terminer.')
+                sleep(3)
+                try:
+                    os.system(f"exit")
+                except:
+                    exit()
+                else:
+                    os._exit(0)
+                    
+
     def isAdmin():
         interface.wipe(20)
         #interface.reload(EBP_List_Logiciel,EBP_List_Select)
@@ -67,14 +98,32 @@ class interface:
             sleep(3)
             interface.wipe(20)
             os.system('cls' if os.name == 'nt' else 'clear')
-            print('\n     - Vérification des mise à jours du système')
-            resultmaj = os.popen('powershell -command "$session = New-Object -com "Microsoft.Update.Session"; "$searcher = $session.CreateUpdateSearcher()"; "$results = $searcher.search(\'IsInstalled=0\')"; " $results.updates.count"').read()
-            if resultmaj.strip() == "0" :
-                print('\n\n        Aucune mises à jours en attentes !')
-                sleep(3)
-            else:
-                print('\n\n        Vous avez des mises à jours en attentes !\n          L\'installation risque de ne pas aboutir !')
-                sleep(8)
+            print('\n     Voulez-vous vérifier si des mises à jour sont à effectuer (± 1 minute) ? [Oui/-]')
+            majq = input("\n          >> ")
+            if majq.lower().strip() in ["yes", "y", "o", "oui", "1"]:
+                print('\n\n     - Vérification des mises à jour du système')
+                resultmaj = os.popen('powershell -command "$session = New-Object -com "Microsoft.Update.Session"; "$searcher = $session.CreateUpdateSearcher()"; "$results = $searcher.search(\'IsInstalled=0\')"; " $results.updates.count"').read()
+                if resultmaj.strip() == "0" :
+                    print('\n\n        Aucune mises à jours en attentes !')
+                    sleep(3)
+                else:
+                    print('\n\n        Vous avez des mises à jours en attentes !\n          L\'installation risque de ne pas aboutir !')
+                    print('\n        Voulez-vous tout de même continuer ? [Oui/-]')
+                    continueq = input("\n                >> ")
+                    if not majq.lower().strip() in ["yes", "y", "o", "oui", "1"]:
+                        try:
+                            os.system('start ms-settings:windowsupdate')
+                        except:
+                            pass
+                        print('\n\n        Le programme va se terminer.')
+                        sleep(3)
+                        try:
+                            os.system(f"exit")
+                        except:
+                            exit()
+                        else:
+                            os._exit(0)
+                    sleep(2)
             os.system('cls' if os.name == 'nt' else 'clear')
             interface.reload(EBP_List_Logiciel,EBP_List_Select)
         except PermissionError:
@@ -201,25 +250,25 @@ class interface:
                         else:
                             print(f"\n               Erreur ! L'installation de {elem[1]} a échoué !\n")
                             Failed_List.append(elem)
-                            sleep(2)
+                            sleep(3)
                             try:
                                 os.system(f"echo Erreur installation {elem[1]} >> %userprofile%/Desktop/EBPInstaller_Rapport_Erreurs.txt")
                             except:
                                 pass
                     else:
-                        print('\n        Fichier introuvable ! Merci de contacter informatique@ecoris.fr pour signaler cette erreur !\n')
+                        print('\n        Fichier introuvable ! Merci de contacter informatique@ecoris.fr, avec l\'aide du fichier \'EBPInstaller_Rapport_Erreurs.txt\' généré sur votre Bureau (ou sur la session administrateur), pour signaler cette erreur !\n')
                         Failed_List.append(elem)
-                        sleep(2)
+                        sleep(4)
                         try:
-                            os.system(f"echo Erreur Telechargement {elem[1]} >> %userprofile%/Desktop/EBPInstaller_Rapport_Erreurs.txt")
+                            os.system(f"echo Erreur Telechargement {elem[1]} - WindowsError - {a} >> %userprofile%/Desktop/EBPInstaller_Rapport_Erreurs.txt")
                         except:
                             pass
                 except Exception as e:
-                    print('\n        Fichier introuvable ! Merci de contacter informatique@ecoris.fr pour signaler cette erreur !\n')
+                    print('\n        Fichier introuvable ! Merci de contacter informatique@ecoris.fr, avec l\'aide du fichier \'EBPInstaller_Rapport_Erreurs.txt\' généré sur votre Bureau (ou sur la session administrateur), pour signaler cette erreur !\n')
                     Failed_List.append(elem)
-                    sleep(2)
+                    sleep(4)
                     try:
-                        os.system(f"echo Erreur Telechargement {elem[1]} >> %userprofile%/Desktop/EBPInstaller_Rapport_Erreurs.txt")
+                        os.system(f"echo Erreur Telechargement {elem[1]} - Exception - {e} >> %userprofile%/Desktop/EBPInstaller_Rapport_Erreurs.txt")
                     except:
                         pass
                 
@@ -345,7 +394,7 @@ Failed_List=[]
 #                                                            ╚════════════╝
 
 
-interface.isAdmin()
+interface.CheckVersion()
 
 
 
